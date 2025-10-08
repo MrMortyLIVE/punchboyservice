@@ -1,0 +1,769 @@
+<<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PunchBoy Service - Beat & Mixing Pro</title>
+    <!-- Caricamento del CDN di Tailwind CSS per stili rapidi e responsivi -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configurazione Tailwind personalizzata per un look futuristico/dark -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-primary': '#0a0a0a',
+                        'dark-secondary': '#1f2937',
+                        'neon-blue': '#00ffff', // Ciano/Blu elettrico
+                        'neon-green': '#00ff00', 
+                        'neon-red': '#ff0055', // Rosa/Rosso Neon per avvisi
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px rgba(0, 255, 255, 0.6), 0 0 5px rgba(0, 255, 255, 0.4)',
+                        'neon-sm': '0 0 8px rgba(0, 255, 255, 0.4)',
+                        'neon-green-sm': '0 0 8px rgba(0, 255, 0, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Stile personalizzato per assicurare l'effetto "glow" su hover */
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            filter: brightness(1.2);
+        }
+        /* Scorrimento fluido per gli anchor link */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Sfondo a griglia che simula l'interfaccia di un software DAW */
+        body {
+            /* Colore base scuro */
+            background-color: #0a0a0a;
+            /* Crea una griglia sottile (1px) usando gradienti ripetuti, per un look tecnico */
+            background-image: 
+                linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+                linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+            /* Dimensioni della cella della griglia (25x25 pixel) */
+            background-size: 25px 25px; 
+        }
+
+        /* Stile per l'elemento lista richieste nella dashboard */
+        .request-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .request-item:hover {
+            background-color: #2a3544; /* Tonalità più scura all'hover */
+            transform: translateX(2px);
+            border-left: 4px solid #00ffff;
+        }
+        .request-item.active {
+            border-left: 4px solid #00ffff;
+            background-color: #2a3544;
+        }
+        .request-list-container {
+            max-height: 70vh; /* Altezza fissa per lo scroll */
+        }
+    </style>
+</head>
+
+<body class="text-gray-100 font-sans min-h-screen antialiased">
+
+    <!-- 1. CONTENUTO PRINCIPALE DEL SITO (Visibile di default) -->
+    <div id="main-site-content" class="min-h-screen"> 
+        <!-- Intestazione (Header) -->
+        <header class="sticky top-0 z-50 bg-dark-primary/95 backdrop-blur-sm shadow-md shadow-neon-blue/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <!-- Logo con effetto neon -->
+                <a href="#" class="text-2xl font-bold text-neon-blue shadow-neon-sm rounded-lg px-2">
+                    PUNCHBOY SERVICE
+                </a>
+                <!-- Navigazione Desktop -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#servizi" class="text-gray-300 hover:text-neon-blue transition duration-300">Servizi</a>
+                    <a href="#beat" class="text-gray-300 hover:text-neon-blue transition duration-300">Beat Personalizzati</a>
+                    <a href="#mixing" class="text-gray-300 hover:text-neon-blue transition duration-300">Mixing Pro</a>
+                    <a href="#contatti" class="text-gray-300 hover:text-neon-blue transition duration-300">Contatti</a>
+                </nav>
+                <!-- CTA mobile/desktop -->
+                <a href="#contatti" class="hidden md:inline-block bg-neon-blue text-dark-primary font-semibold py-2 px-4 rounded-full text-sm cta-button">
+                    Inizia Ora
+                </a>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Sezione Eroe (Hero Section) -->
+            <section id="hero" class="pt-24 pb-32 text-center">
+                <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 leading-tight">
+                    La Tua Visione. Il Nostro <span class="text-neon-blue shadow-neon rounded-lg px-2">Suono Definitivo</span>.
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
+                    Produzione audio professionale: beat esclusivi su richiesta e mixing di precisione, ispirati da FL Studio e Logic.
+                </p>
+                <a href="#contatti" class="cta-button inline-block bg-neon-blue text-dark-primary font-bold py-3 px-8 rounded-full text-lg shadow-neon">
+                    Richiedi un Preventivo
+                </a>
+            </section>
+            
+            <!-- Divisore con effetto ottico -->
+            <div class="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent my-16"></div>
+
+            <!-- Sezione Servizi Dettagliati -->
+            <section id="servizi" class="py-16">
+                <h2 class="text-4xl font-bold text-center mb-16">I Nostri Moduli Audio Specialistici</h2>
+                
+                <div class="grid md:grid-cols-2 gap-10">
+                    <!-- Card 1: Beat Personalizzati -->
+                    <div id="beat" class="bg-dark-secondary p-8 rounded-xl border border-neon-blue/20 shadow-lg hover:shadow-neon transition duration-500">
+                        <div class="text-4xl text-neon-blue mb-4">🎶</div> <!-- Icona Beat -->
+                        <h3 class="text-3xl font-semibold mb-4 border-b border-gray-700 pb-2">Beat Personalizzati (Exclusive)</h3>
+                        <p class="text-gray-400 mb-6">
+                            Creazione di strumentali uniche e su misura per la tua traccia. Dalla concezione all'arrangiamento finale, garantisco un sound mai sentito prima, con tutti i file sorgente inclusi.
+                        </p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Licenza Esclusiva (100% dei diritti)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Consegna Stems (Tracce separate)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Consulenza Artistica Inclusa
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2: Mixing Professionale - Aggiornato con FL Studio e Bandlab -->
+                    <div id="mixing" class="bg-dark-secondary p-8 rounded-xl border border-neon-blue/20 shadow-lg hover:shadow-neon transition duration-500">
+                        <div class="text-4xl text-neon-blue mb-4">🎚️</div> <!-- Icona Mixing -->
+                        <h3 class="text-3xl font-semibold mb-4 border-b border-gray-700 pb-2">Mixing & Mastering Professionale</h3>
+                        <p class="text-gray-400 mb-6">
+                            Trasformo le tue registrazioni grezze in un prodotto radiofonico. Lavoro personalmente sul bilanciamento, dinamica e spazializzazione usando **FL Studio e Bandlab** per un suono **definitivo**.
+                        </p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Analisi Spettrale Avanzata
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Revisioni Illimitate Garantite
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-neon-green mr-3">✓</span> Consegna File Master (WAV 24-bit)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Divisore -->
+            <div class="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent my-16"></div>
+
+            <!-- Sezione Contatti e Form -->
+            <section id="contatti" class="py-16">
+                <div class="max-w-3xl mx-auto bg-dark-secondary p-8 sm:p-12 rounded-2xl border-2 border-neon-blue/30 shadow-neon-sm">
+                    <!-- Titolo Aggiornato al singolare -->
+                    <h2 class="text-4xl font-bold text-center text-neon-blue mb-4">Contatta l'Operatore PunchBoy</h2>
+                    <p class="text-gray-400 text-center mb-8">
+                        Descrivimi il tuo progetto e ricevi un preventivo personalizzato entro 24 ore.
+                    </p>
+
+                    <!-- Form di Contatto con stile futuristico -->
+                    <form id="contact-form" action="#" method="POST">
+                        <div class="space-y-6">
+                            
+                            <div>
+                                <label for="nome" class="block text-sm font-medium text-gray-300 mb-1">Nome / Nome d'Arte:</label>
+                                <input type="text" id="nome" name="nome" required 
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email di Contatto:</label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                            </div>
+
+                            <!-- CAMPO: Numero di Telefono (OBBLIGATORIO) -->
+                            <div>
+                                <label for="telefono" class="block text-sm font-medium text-gray-300 mb-1">Numero di Telefono (Obbligatorio):</label>
+                                <input type="tel" id="telefono" name="telefono" required
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                            </div>
+
+                            <div>
+                                <label for="servizio" class="block text-sm font-medium text-gray-300 mb-1">Servizio Richiesto:</label>
+                                <select id="servizio" name="servizio" required
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100 appearance-none">
+                                    <option value="">Seleziona un'opzione...</option>
+                                    <option value="beat">Beat Personalizzato (Exclusive)</option>
+                                    <option value="mixing">Mixing Professionale</option>
+                                    <option value="entrambi">Entrambi i servizi</option>
+                                </select>
+                            </div>
+                            
+                            <!-- CAMPO: BUDGET (Input Numerico Libero) -->
+                            <div>
+                                <label for="budget" class="block text-sm font-medium text-gray-300 mb-1">Budget Stimato per il Progetto (€):</label>
+                                <input type="number" id="budget" name="budget" required min="1" placeholder="Es. 500"
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                            </div>
+                            <!-- FINE CAMPO -->
+
+                            <div>
+                                <label for="messaggio" class="block text-sm font-medium text-gray-300 mb-1">Dettagli del Progetto / Riferimenti:</label>
+                                <textarea id="messaggio" name="messaggio" rows="5" required
+                                    class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100"></textarea>
+                            </div>
+
+                            <button type="submit" 
+                                class="cta-button w-full bg-neon-blue text-dark-primary font-bold py-3 rounded-lg text-lg shadow-neon hover:shadow-neon-lg">
+                                INVIA RICHIESTA (Trasmissione Dati)
+                            </button>
+                            <div id="message-box" class="mt-4 p-3 rounded-lg text-center hidden"></div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-dark-secondary border-t border-neon-blue/20 mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:flex md:justify-between md:items-center text-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2025 PunchBoy Service | Tutti i diritti riservati. | Modulo V 1.1</p>
+                <div class="space-x-4 text-gray-400">
+                    <a href="#" class="hover:text-neon-blue transition duration-300">Instagram</a>
+                    <a href="#" class="hover:text-neon-blue transition duration-300">SoundCloud</a>
+                    <a href="#" class="hover:text-neon-blue transition duration-300">Termini di Servizio</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- 2. SEZIONE AMMINISTRATORE: LOGIN (Nascosta di default) -->
+    <section id="admin-login-area" class="hidden flex min-h-screen items-center justify-center py-16 px-4">
+        <div class="w-full max-w-md bg-dark-secondary p-8 rounded-2xl border-2 border-neon-blue/30 shadow-neon-sm">
+            <h2 class="text-3xl font-bold text-center text-neon-blue mb-6">Accesso Amministratore</h2>
+            <p class="text-gray-400 text-center mb-8">Area riservata PunchBoy Service. ID Utente Corrente: <span id="current-user-id" class="text-neon-green">In attesa...</span></p>
+
+            <form id="admin-login-form" class="space-y-6">
+                <div>
+                    <label for="admin-user" class="block text-sm font-medium text-gray-300 mb-1">Utente (ID):</label>
+                    <input type="text" id="admin-user" name="admin-user" required 
+                        class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                </div>
+                <div>
+                    <label for="admin-pass" class="block text-sm font-medium text-gray-300 mb-1">Password:</label>
+                    <input type="password" id="admin-pass" name="admin-pass" required
+                        class="w-full px-4 py-3 bg-gray-800 border-2 border-neon-blue/40 rounded-lg focus:ring-1 focus:ring-neon-blue focus:border-neon-blue outline-none transition duration-300 text-gray-100">
+                </div>
+                <button type="submit" 
+                    class="cta-button w-full bg-neon-blue text-dark-primary font-bold py-3 rounded-lg text-lg shadow-neon hover:shadow-neon-lg">
+                    Accedi
+                </button>
+                <div id="admin-message-box" class="mt-4 p-3 rounded-lg text-center hidden"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD AMMINISTRATORE (Nascosta di default) -->
+    <section id="admin-dashboard" class="hidden min-h-screen py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-5xl font-bold text-neon-green mb-8 border-b border-gray-700 pb-4">Pannello Amministratore</h1>
+            <p class="text-xl text-gray-300 mb-10">Benvenuto, <span id="dashboard-username" class="text-neon-blue">Admin</span>. Qui puoi gestire le richieste e le statistiche operative.</p>
+            
+            <!-- STATISTICHE RICHIESTE (REALI) -->
+            <div class="bg-dark-secondary p-6 rounded-lg border border-neon-green/20 shadow-neon-sm mb-12">
+                <h2 class="text-3xl font-semibold text-neon-green mb-4">Statistiche Richieste (Reali da DB)</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 bg-dark-primary rounded-md">
+                        <p class="text-3xl font-bold text-neon-blue" id="stat-total">0</p>
+                        <p class="text-gray-400 text-sm">Richieste Totali</p>
+                    </div>
+                    <div class="p-4 bg-dark-primary rounded-md">
+                        <p class="text-3xl font-bold text-neon-blue" id="stat-average-budget">€0</p>
+                        <p class="text-gray-400 text-sm">Budget Medio</p>
+                    </div>
+                    <div class="p-4 bg-dark-primary rounded-md">
+                        <p class="text-3xl font-bold text-neon-blue" id="stat-beats">0</p>
+                        <p class="text-gray-400 text-sm">Richieste Beat</p>
+                    </div>
+                    <div class="p-4 bg-dark-primary rounded-md">
+                        <p class="text-3xl font-bold text-neon-blue" id="stat-mix">0</p>
+                        <p class="text-gray-400 text-sm">Richieste Mixing</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GESTIONE RICHIESTE CLIENTI -->
+            <div class="bg-dark-secondary p-6 rounded-lg border border-neon-green/20 shadow-neon-sm">
+                <h2 class="text-3xl font-semibold text-neon-green mb-4 border-b border-gray-700 pb-2">Gestione Richieste Clienti</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                    <!-- Colonna 1: Lista Richieste -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-300 mb-3">Richieste Pendenti (<span id="request-count">0</span>)</h3>
+                        <div id="requests-list" class="request-list-container space-y-2 overflow-y-auto pr-2">
+                            <p class="text-gray-500 italic text-sm">Caricamento richieste...</p>
+                        </div>
+                    </div>
+
+                    <!-- Colonna 2: Dettaglio Richiesta -->
+                    <div class="bg-dark-primary p-6 rounded-lg border border-neon-blue/30 sticky top-20">
+                        <h3 class="text-xl font-bold text-neon-blue mb-4 border-b border-gray-700 pb-2">Dettaglio Richiesta Selezionata</h3>
+                        <div id="request-detail-view">
+                            <p class="text-gray-500 italic">Seleziona una richiesta dalla lista per visualizzare i dettagli.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestione Sessione -->
+                <div class="mt-8 pt-4 border-t border-gray-700 flex justify-between items-center">
+                    <p class="text-gray-400 text-sm">Utente Autenticato: <span id="dashboard-user-id" class="break-all text-xs text-neon-blue">...</span></p>
+                    <a href="#" id="admin-logout" class="text-neon-red hover:text-red-400 underline font-semibold transition duration-300">Esci dalla Dashboard</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Script JavaScript per gestione form (con validazione) E GESTIONE ADMIN -->
+    <script type="module">
+        // === INIZIALIZZAZIONE FIREBASE ===
+        // Importa i moduli necessari da Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Variabili Globali (Fornite dall'ambiente Canvas)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app, db, auth;
+        let currentUserId = null;
+        let isAuthReady = false;
+        let requestsData = []; // Array per memorizzare le richieste
+
+        // Credenziali hardcoded 
+        const ADMIN_USER = "davidepscl";
+        const ADMIN_PASS = "P@ssw0rd";
+        const ADMIN_SESSION_KEY = 'punchboy_admin_session_token';
+        const ADMIN_ROUTE = "#adminpunchboy"; 
+
+        // Riferimento alla collezione Firestore (richieste private dell'utente)
+        let requestsCollectionRef = null; 
+
+        // Inizializza Firebase e Autenticazione
+        async function initFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase Config non disponibile. Impossibile inizializzare.");
+                    return;
+                }
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Segnalazione dello stato di autenticazione
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        // Imposta il riferimento alla collezione DOPO aver ottenuto l'UID
+                        requestsCollectionRef = collection(db, `artifacts/${appId}/users/${currentUserId}/requests`);
+                        console.log("Firestore Path Richieste:", requestsCollectionRef.path);
+                    } else {
+                        currentUserId = null;
+                        requestsCollectionRef = null;
+                        console.log("Firebase Auth: Utente disconnesso.");
+                    }
+                    isAuthReady = true;
+                    // Aggiorna l'ID utente visualizzato nel modulo di login e check della rotta
+                    document.getElementById('current-user-id').textContent = currentUserId || 'N/A';
+                    
+                    // Se l'utente è loggato in admin, avvia il listener delle richieste
+                    if (isAuthReady && sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true') {
+                         setupRequestListener();
+                    }
+                    checkInitialRoute(); 
+                });
+
+                // Tenta l'accesso con il token custom o anonimo
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+            } catch (error) {
+                console.error("Errore nell'inizializzazione o nell'autenticazione Firebase:", error);
+            }
+        }
+
+        window.onload = initFirebase;
+
+
+        // === FUNZIONI GENERALI DI MESSAGGISTICA E VALIDAZIONE ===
+
+        function showMessage(message, isError = false) {
+            const msgBox = document.getElementById('message-box');
+            msgBox.classList.remove('hidden', 'bg-neon-green/50', 'bg-red-800/50', 'text-gray-900', 'text-red-300', 'font-semibold');
+            
+            if (isError) {
+                msgBox.classList.add('bg-red-800/50', 'text-red-300');
+            } else {
+                msgBox.classList.add('bg-neon-green/50', 'text-gray-900', 'font-semibold');
+                setTimeout(() => { msgBox.classList.add('hidden'); }, 6000);
+            }
+            msgBox.innerHTML = message;
+        }
+
+        function showAdminMessage(message, isError = false) {
+            const adminMsgBox = document.getElementById('admin-message-box');
+            adminMsgBox.classList.remove('hidden', 'bg-red-800/50', 'bg-neon-green/50', 'text-gray-900', 'text-red-300', 'font-semibold');
+            
+            if (isError) {
+                adminMsgBox.classList.add('bg-red-800/50', 'text-red-300');
+            } else {
+                adminMsgBox.classList.add('bg-neon-green/50', 'text-gray-900', 'font-semibold');
+            }
+            adminMsgBox.innerHTML = message;
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function validatePhone(phone) {
+            const cleanPhone = phone.replace(/\D/g, ''); 
+            return cleanPhone.length >= 7 && cleanPhone.length <= 15;
+        }
+
+        function validateBudget(budget) {
+            const num = parseFloat(budget);
+            return !isNaN(num) && num >= 1;
+        }
+
+        // === LOGICA DI SALVATAGGIO FIREBASE ===
+        async function saveRequestToFirestore(requestData) {
+            if (!requestsCollectionRef) {
+                showMessage('❌ Errore: Sistema di autenticazione non pronto. Riprova tra poco.', true);
+                return false;
+            }
+
+            try {
+                // Aggiunge un timestamp alla richiesta
+                const now = new Date().toISOString();
+                const dataToSave = {
+                    ...requestData,
+                    timestamp: now,
+                    status: 'Pending'
+                };
+
+                await addDoc(requestsCollectionRef, dataToSave);
+                return true;
+            } catch (error) {
+                console.error("Errore salvataggio richiesta Firestore:", error);
+                showMessage('❌ Errore di connessione: Impossibile inviare la richiesta in questo momento. Dettagli: ' + error.message, true);
+                return false;
+            }
+        }
+
+
+        // === GESTIONE FORM CONTATTO PRINCIPALE ===
+
+        document.getElementById('contact-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const nome = form.nome.value;
+            const email = form.email.value;
+            const phone = form.telefono.value;
+            const servizio = form.servizio.value;
+            const budget = form.budget.value; 
+            const messaggio = form.messaggio.value;
+            
+            // 1. Validazione Campi
+            if (!validateEmail(email) || !validatePhone(phone) || !validateBudget(budget)) {
+                showMessage('❌ **Errore di Validazione:** Controlla email, telefono o assicurati che il Budget sia un numero valido (minimo 1€).', true);
+                return;
+            }
+
+            // Sanitizza il budget in numero prima di salvare
+            const requestData = { 
+                nome, 
+                email, 
+                telefono: phone, 
+                servizio, 
+                budget: parseFloat(budget), 
+                messaggio 
+            };
+            
+            const success = await saveRequestToFirestore(requestData);
+
+            if (success) {
+                showMessage('✅ **Richiesta Inviata!** Ti contatteremo via email e/o telefono entro 24 ore per discutere i dettagli del tuo progetto. Grazie per aver scelto PunchBoy Service!', false);
+                form.reset(); 
+            }
+            // L'errore è già gestito in saveRequestToFirestore
+        });
+
+
+        // === LOGICA DASHBOARD ADMIN: VISUALIZZAZIONE RICHIESTE E STATS REALI ===
+
+        const mainContent = document.getElementById('main-site-content');
+        const adminLoginArea = document.getElementById('admin-login-area');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const dashboardUsername = document.getElementById('dashboard-username');
+        const dashboardUserId = document.getElementById('dashboard-user-id');
+        const requestsListDiv = document.getElementById('requests-list');
+        const requestDetailViewDiv = document.getElementById('request-detail-view');
+        const requestCountSpan = document.getElementById('request-count');
+        
+        // Elementi per le Statistiche Reali
+        const statTotal = document.getElementById('stat-total');
+        const statBeats = document.getElementById('stat-beats');
+        const statMix = document.getElementById('stat-mix');
+        const statAverageBudget = document.getElementById('stat-average-budget');
+        
+        // Funzione per calcolare statistiche reali basate su Firestore
+        function calculateRealStats(requests) {
+            const totalRequests = requests.length;
+            const beatCount = requests.filter(r => r.servizio === 'beat').length;
+            const mixCount = requests.filter(r => r.servizio === 'mixing' || r.servizio === 'entrambi').length;
+            
+            let totalBudgetSum = 0;
+            let validBudgetCount = 0;
+
+            requests.forEach(r => {
+                // Assicurati che il budget sia un numero valido
+                const budgetNum = parseFloat(r.budget);
+                if (!isNaN(budgetNum) && budgetNum > 0) {
+                    totalBudgetSum += budgetNum;
+                    validBudgetCount++;
+                }
+            });
+
+            const averageBudget = validBudgetCount > 0 ? (totalBudgetSum / validBudgetCount).toFixed(0) : 0;
+
+            // Aggiorna i dati nella dashboard
+            statTotal.textContent = totalRequests;
+            statBeats.textContent = beatCount;
+            statMix.textContent = mixCount;
+            statAverageBudget.textContent = `€${averageBudget}`;
+        }
+
+        // Funzione per mostrare i dettagli di una richiesta
+        function showRequestDetails(request) {
+            const formattedDate = new Date(request.timestamp).toLocaleString('it-IT');
+            const formattedBudget = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(request.budget);
+            
+            requestDetailViewDiv.innerHTML = `
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-400">ID Richiesta: <span class="text-xs text-neon-blue break-all">${request.id}</span></p>
+                    
+                    <div class="p-3 bg-dark-secondary rounded-lg border-l-4 border-neon-blue">
+                        <p class="text-gray-300 font-semibold text-xl">${request.nome}</p>
+                        <p class="text-sm text-gray-500">${request.email}</p>
+                    </div>
+
+                    <p class="text-gray-300"><span class="font-semibold text-neon-green">Servizio:</span> ${request.servizio.toUpperCase()}</p>
+                    <p class="text-gray-300"><span class="font-semibold text-neon-green">Budget Proposto:</span> ${formattedBudget}</p>
+                    <p class="text-gray-300"><span class="font-semibold text-neon-green">Contatto:</span> ${request.telefono}</p>
+                    <p class="text-gray-300"><span class="font-semibold text-neon-green">Data:</span> ${formattedDate}</p>
+                    
+                    <div class="pt-4 border-t border-gray-700">
+                        <p class="font-semibold text-neon-blue mb-2">Dettagli Progetto:</p>
+                        <p class="text-gray-400 whitespace-pre-wrap">${request.messaggio}</p>
+                    </div>
+                </div>
+                <!-- Pulsante per Marcare come Lavorata (azione simulata, che potrebbe essere implementata con updateDoc) -->
+                <button onclick="alert('Funzione: Richiesta archiviata (richiede implementazione di updateDoc su Firestore).')" 
+                        class="mt-6 w-full bg-neon-red text-dark-primary font-bold py-2 px-4 rounded-md hover:bg-red-600 transition duration-300">
+                    Marca come Lavorata
+                </button>
+            `;
+        }
+
+
+        // Funzione per renderizzare la lista delle richieste
+        function renderRequests(requests) {
+            requestsData = requests;
+            requestsListDiv.innerHTML = ''; // Pulisce la lista
+
+            if (requests.length === 0) {
+                requestsListDiv.innerHTML = '<p class="text-gray-500 italic">Nessuna nuova richiesta in attesa.</p>';
+                requestDetailViewDiv.innerHTML = '<p class="text-gray-500 italic">Seleziona una richiesta dalla lista per visualizzare i dettagli.</p>';
+            } else {
+                requests.forEach(request => {
+                    const el = document.createElement('div');
+                    el.className = 'request-item bg-dark-primary p-3 rounded-lg border-l-4 border-gray-700 hover:border-neon-blue';
+                    el.id = `request-${request.id}`;
+                    
+                    const formattedBudget = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(request.budget);
+
+                    el.innerHTML = `
+                        <p class="text-neon-blue font-semibold text-lg">${request.nome}</p>
+                        <p class="text-sm text-gray-400">${request.servizio.toUpperCase()} | Budget: ${formattedBudget}</p>
+                        <p class="text-xs text-gray-600">${new Date(request.timestamp).toLocaleDateString('it-IT')}</p>
+                    `;
+                    el.addEventListener('click', () => {
+                        // Rimuovi la classe 'active' da tutti gli elementi
+                        document.querySelectorAll('.request-item').forEach(item => item.classList.remove('active'));
+                        // Aggiungi la classe 'active' all'elemento cliccato
+                        el.classList.add('active');
+                        // Mostra i dettagli
+                        showRequestDetails(request);
+                    });
+                    requestsListDiv.appendChild(el);
+                });
+            }
+            requestCountSpan.textContent = requests.length;
+            // Aggiorna le statistiche reali ad ogni refresh della lista
+            calculateRealStats(requests);
+        }
+
+        // Listener Firestore per le richieste (attivato solo se si è loggati come Admin)
+        let unsubscribeRequests = null;
+        function setupRequestListener() {
+            if (!isAuthReady || !requestsCollectionRef) return;
+
+            // Se il listener è già attivo, lo annulla per evitare duplicati
+            if (unsubscribeRequests) {
+                unsubscribeRequests();
+            }
+
+            // Ottiene tutte le richieste in tempo reale
+            const q = query(requestsCollectionRef);
+
+            unsubscribeRequests = onSnapshot(q, (snapshot) => {
+                const updatedRequests = [];
+                snapshot.forEach(doc => {
+                    // Aggiunge l'ID del documento al dato
+                    updatedRequests.push({ id: doc.id, ...doc.data() });
+                });
+                console.log(`Richieste caricate: ${updatedRequests.length}`);
+                // Ordina dalla più recente alla meno recente
+                updatedRequests.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                renderRequests(updatedRequests);
+            }, (error) => {
+                console.error("Errore nell'ascolto delle richieste Firestore:", error);
+                requestsListDiv.innerHTML = `<p class="text-neon-red italic">Errore di connessione al database richieste.</p>`;
+            });
+        }
+        
+        // Funzione per cambiare la visualizzazione
+        function setView(state) {
+            mainContent.classList.add('hidden');
+            adminLoginArea.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
+
+            if (state === 'site') {
+                mainContent.classList.remove('hidden');
+                document.title = "PunchBoy Service - Beat & Mixing Pro";
+                // Rimuove il listener quando si esce dalla dashboard
+                if (unsubscribeRequests) {
+                    unsubscribeRequests();
+                    unsubscribeRequests = null;
+                }
+            } else if (state === 'login') {
+                adminLoginArea.classList.remove('hidden');
+                document.title = "Admin Login | PunchBoy Service";
+            } else if (state === 'dashboard') {
+                adminDashboard.classList.remove('hidden');
+                document.title = "Admin Dashboard | PunchBoy Service";
+                dashboardUsername.textContent = ADMIN_USER;
+                dashboardUserId.textContent = currentUserId || 'N/A'; // Mostra l'UID di Firebase
+                // Avvia il listener delle richieste quando si accede alla dashboard
+                if (isAuthReady) {
+                    setupRequestListener();
+                }
+            }
+        }
+
+        // Funzione per gestire il routing (simulato tramite hash)
+        function checkAdminRoute() {
+            return window.location.hash === ADMIN_ROUTE;
+        }
+        
+        // Gestione Invio Form Login Admin
+        document.getElementById('admin-login-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                sessionStorage.setItem(ADMIN_SESSION_KEY, 'true'); 
+                showAdminMessage('✅ Accesso Amministratore Riuscito.', false);
+                
+                setTimeout(() => {
+                    // Imposta la vista Dashboard e avvia il listener dei dati
+                    setView('dashboard');
+                    window.history.pushState(null, '', ADMIN_ROUTE);
+                }, 1000);
+                
+            } else {
+                showAdminMessage('❌ Credenziali non valide. Riprova.', true);
+                sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            }
+        });
+
+        // Gestione Logout
+        document.getElementById('admin-logout')?.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Cancella il listener Firestore attivo
+            if (unsubscribeRequests) {
+                unsubscribeRequests();
+                unsubscribeRequests = null;
+            }
+
+            if (auth) {
+                await signOut(auth).catch(error => console.error("Logout Firebase fallito:", error));
+            }
+
+            sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            
+            // Reinizializza l'auth per ottenere un nuovo utente anonimo e resettare la vista
+            await initFirebase(); 
+            
+            // Torna alla root: Cancella l'hash e attiva la visualizzazione del sito principale
+            window.location.hash = ''; 
+            setView('site');
+        });
+
+        // Logica di avvio iniziale e gestione della navigazione
+        function checkInitialRoute() {
+            const isSessionLoggedIn = sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+
+            if (checkAdminRoute()) {
+                if (isSessionLoggedIn) {
+                    setView('dashboard');
+                } else {
+                    setView('login');
+                }
+            } else {
+                setView('site');
+            }
+        }
+        
+        window.addEventListener('popstate', checkInitialRoute);
+        window.addEventListener('hashchange', checkInitialRoute);
+    </script>
+
+</body>
+</html>
+>
